@@ -118,65 +118,64 @@
         }
         target.focus();
         var container = $(target).parents('.containerobj');
-        // Handle clicks
-        if (event.type == "click"){
-          var level = $('div',container).index($(target).parents('div'));
-          var isleafnode = false;
-          // Remove blocks to the right in the tree, and 'deactivate' other
-          // links within the same level, if metakey is not being used
-          $('div:gt('+level+')',container).remove();
-          if (!event.metaKey && !event.shiftKey) {
-            $('div:eq('+level+') a',container).removeClass('active').removeClass('inpath');
-            $('.active',container).addClass('inpath');
-            $('div:lt('+level+') a',container).removeClass('active');
-          }
-          // Select intermediate items when shift clicking
-          // Sorry, only works with jQuery 1.4 due to changes in the .index() function
-          if (event.shiftKey) {
-            var first = $('a.active:first', $(target).parent()).index();
-            var cur = $(target).index();
-            var range = [first,cur].sort(function(a,b){return a - b;});
-            $('div:eq('+level+') a', container).slice(range[0], range[1]).addClass('active');
-          }
-          $(target).addClass('active');
-          if ($(target).data('sub').children('li').length && !event.metaKey) {
-            // Menu has children, so add another submenu
-            var w = false;
-            if (settings.fixedwidth || $.browser.msie)
-            w = typeof settings.fixedwidth == "string" ? settings.fixedwidth : '200px';
-            self._submenu(self, container, target, w);
-          }
-          else if (!event.metaKey && !event.shiftKey) {
-            // No children, show title instead (if it exists, or a link)
-            isleafnode = true;
-            var previewcontainer = $('<div/>').addClass('feature').appendTo(container);
-            // Fire preview handler function
-            if ($.isFunction(settings.preview)) {
-              // We're passing the element back to the callback
-              var preview = settings.preview($(target));
-            }
-            // If preview is specifically disabled, do nothing with the previewbox
-            else if (!settings.preview) {
-            }
-            // If no preview function is specificied, use a default behavior
-            else {
-              var title = $('<a/>').attr({href:$(target).attr('href')}).text($(target).attr('title') ? $(target).attr('title') : $(target).text());
-              $(previewcontainer).html(title);
-            }
-            // Set the width
-            var remainingspace = 0; 
-            $.each($(container).children('div').slice(0,-1),function(i,item){
-              remainingspace += $(item).width();
-            });
-            var fillwidth = $(container).width() - remainingspace;
-            $(previewcontainer).css({'top':0,'left':remainingspace}).width(fillwidth).show();
-          }
-          // Fire onchange handler function, but only if multi-select is off.
-          // FIXME Need to deal multiple selections.
-          if ($.isFunction(settings.onchange) && !settings.multi) {
+
+        // Handle mouse clicks
+        var level = $('div',container).index($(target).parents('div'));
+        var isleafnode = false;
+        // Remove blocks to the right in the tree, and 'deactivate' other
+        // links within the same level, if metakey is not being used
+        $('div:gt('+level+')',container).remove();
+        if (!event.metaKey && !event.shiftKey) {
+          $('div:eq('+level+') a',container).removeClass('active').removeClass('inpath');
+          $('.active',container).addClass('inpath');
+          $('div:lt('+level+') a',container).removeClass('active');
+        }
+        // Select intermediate items when shift clicking
+        // Sorry, only works with jQuery 1.4 due to changes in the .index() function
+        if (event.shiftKey) {
+          var first = $('a.active:first', $(target).parent()).index();
+          var cur = $(target).index();
+          var range = [first,cur].sort(function(a,b){return a - b;});
+          $('div:eq('+level+') a', container).slice(range[0], range[1]).addClass('active');
+        }
+        $(target).addClass('active');
+        if ($(target).data('sub').children('li').length && !event.metaKey) {
+          // Menu has children, so add another submenu
+          var w = false;
+          if (settings.fixedwidth || $.browser.msie)
+          w = typeof settings.fixedwidth == "string" ? settings.fixedwidth : '200px';
+          self._submenu(self, container, target, w);
+        }
+        else if (!event.metaKey && !event.shiftKey) {
+          // No children, show title instead (if it exists, or a link)
+          isleafnode = true;
+          var previewcontainer = $('<div/>').addClass('feature').appendTo(container);
+          // Fire preview handler function
+          if ($.isFunction(settings.preview)) {
             // We're passing the element back to the callback
-            var onchange = settings.onchange($(target), isleafnode);
+            var preview = settings.preview($(target));
           }
+          // If preview is specifically disabled, do nothing with the previewbox
+          else if (!settings.preview) {
+          }
+          // If no preview function is specificied, use a default behavior
+          else {
+            var title = $('<a/>').attr({href:$(target).attr('href')}).text($(target).attr('title') ? $(target).attr('title') : $(target).text());
+            $(previewcontainer).html(title);
+          }
+          // Set the width
+          var remainingspace = 0; 
+          $.each($(container).children('div').slice(0,-1),function(i,item){
+            remainingspace += $(item).width();
+          });
+          var fillwidth = $(container).width() - remainingspace;
+          $(previewcontainer).css({'top':0,'left':remainingspace}).width(fillwidth).show();
+        }
+        // Fire onchange handler function, but only if multi-select is off.
+        // FIXME Need to deal multiple selections.
+        if ($.isFunction(settings.onchange) && !settings.multi) {
+          // We're passing the element back to the callback
+          var onchange = settings.onchange($(target), isleafnode);
         }
         event.preventDefault();
       }
