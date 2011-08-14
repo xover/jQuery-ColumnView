@@ -44,9 +44,10 @@
       var top = $(element).children('li');
       var container = $('<div/>')
         .addClass('containerobj')
+        .addClass('ui-widget')
         .attr('id', origid)
         .insertAfter(element);
-      var topdiv = $('<div class="top"></div>').appendTo(container);
+      var topdiv = $('<div/>').addClass("top ui-widget-content ui-corner-left").appendTo(container);
 
       // Set column width
       if (settings.fixedwidth || $.browser.msie) { // MSIE doesn't support auto-width
@@ -56,6 +57,8 @@
 
       $.each(top, function(i, item) {
         var topitem = $(':eq(0)',item).clone(true).wrapInner("<span/>").data('sub',$(item).children('ul')).appendTo(topdiv);
+        $(topitem).addClass('ui-state-default');
+        $(topitem).hover(function(){$(this).toggleClass('ui-state-hover')});
         if (settings.fixedwidth || $.browser.msie) {
           $(topitem).css({'text-overflow':'ellipsis', '-o-text-overflow':'ellipsis','-ms-text-overflow':'ellipsis'});
         }
@@ -131,8 +134,8 @@
         // links within the same level, if metakey is not being used
         $('div:gt('+level+')',container).remove();
         if (!event.metaKey && !event.shiftKey) {
-          $('div:eq('+level+') a',container).removeClass('active').removeClass('inpath');
-          $('.active',container).addClass('inpath');
+          $('div:eq('+level+') a',container).removeClass('active').removeClass('inpath ui-state-active');
+          $('.active',container).addClass('inpath ui-state-active');
           $('div:lt('+level+') a',container).removeClass('active');
         }
         // Select intermediate items when shift clicking
@@ -143,7 +146,7 @@
           var range = [first,cur].sort(function(a,b){return a - b;});
           $('div:eq('+level+') a', container).slice(range[0], range[1]).addClass('active');
         }
-        $(target).addClass('active');
+        $(target).addClass('active ui-state-active');
         if ($(target).data('sub').children('li').length && !event.metaKey) {
           // Menu has children, so add another submenu
           var w = false;
@@ -154,7 +157,7 @@
         else if (!event.metaKey && !event.shiftKey) {
           // No children, show title instead (if it exists, or a link)
           isleafnode = true;
-          var previewcontainer = $('<div/>').addClass('feature').appendTo(container);
+          var previewcontainer = $('<div/>').addClass('feature ui-widget-content').appendTo(container);
           // Fire preview handler function
           if ($.isFunction(settings.preview)) {
             // We're passing the element back to the callback
@@ -192,7 +195,7 @@
       $.each($(container).children('div'),function(i,mydiv){
         leftPos += $(mydiv).width();
       });
-      var submenu = $('<div/>').css({'top':0,'left':leftPos}).appendTo(container);
+      var submenu = $('<div/>').addClass("ui-widget-header").css({'top':0,'left':leftPos}).appendTo(container);
       // Set column width
       if (width)
       $(submenu).width(width);
@@ -201,6 +204,8 @@
         var subsubitem = $(':eq(0)',subitem).clone(true).wrapInner("<span/>").data('sub',$(subitem).children('ul')).appendTo(submenu);
         if (width)
         $(subsubitem).css({'text-overflow':'ellipsis', '-o-text-overflow':'ellipsis','-ms-text-overflow':'ellipsis'});
+        $(subsubitem).addClass('ui-state-default');
+        $(subsubitem).hover(function(){$(this).toggleClass('ui-state-hover')});
         if($(subsubitem).data('sub').length) {
           $(subsubitem).addClass('hasChildMenu');
           self._addWidget(subsubitem);
@@ -209,30 +214,8 @@
     },
 
     // Use canvas, if available, to draw a triangle to denote that item is a parent
-    _addWidget: function(item, color) {
-      var triheight = $(item).height();
-      var canvas = $("<canvas></canvas>").attr({height:triheight,width:10}).addClass('widget').appendTo(item);    if(!color){ color = $(canvas).css('color'); }
-      canvas = $(canvas).get(0);
-      if(canvas.getContext){
-        var context = canvas.getContext('2d');
-        context.fillStyle = color;
-        context.beginPath();
-        context.moveTo(3,(triheight/2 - 3));
-        context.lineTo(10,(triheight/2));
-        context.lineTo(3,(triheight/2 + 3));
-        context.fill();
-      } else {
-        /**
-         * Canvas not supported - put something in there anyway that can be
-         * suppressed later if desired. We're using a decimal character here
-         * representing a "black right-pointing pointer" in Windows since IE
-         * is the likely case that doesn't support canvas.
-         */
-        $("<span>&#9658;</span>").addClass('widget').css({'height':triheight,'width':10}).prependTo(item);
-      }
-      $('.widget').bind('click', function(event){
-        event.preventDefault();
-      });
+    _addWidget: function(item) {
+      $("<span>&#9658;</span>").addClass('ui-icon').addClass('ui-icon-triangle-1-e').prependTo(item);
     },
 
     // Insert the stylesheet to the head
@@ -240,8 +223,7 @@
       $('head').prepend('\
         <style type="text/css" media="screen">\
           .containerobj {\
-            border: 1px solid #ccc;\
-            height:5em;\
+            height:7em;\
             overflow-x:auto;\
             overflow-y:hidden;\
             white-space:nowrap;\
@@ -257,7 +239,7 @@
             display:block;\
             white-space:nowrap;\
             clear:both;\
-            padding-right:15px;\
+            padding-right:31px;\
             overflow:hidden;\
             text-decoration:none;\
           }\
@@ -279,12 +261,10 @@
             background-color:#d0d0d0;\
             color:#000;\
           }\
-          .containerobj .hasChildMenu .widget {\
-            color:black;\
+          .containerobj .hasChildMenu .ui-icon {\
             position:absolute;\
             right:0;\
             text-decoration:none;\
-            font-size:0.7em;\
           }\
         </style>');
     }
