@@ -13,6 +13,7 @@
 
 (function($){
   $.widget("cy.columnview", {
+    version: "2.0",
     options: {
       multi: false,     // Allow multiple selections
       preview: true,    // Handler for preview pane
@@ -287,11 +288,6 @@
           }\
         </style>');
     }
-  });
-
-  // Set version information
-  $.extend($.cy.columnview, {
-        version: "2.0"
   });
 })(jQuery);
 
