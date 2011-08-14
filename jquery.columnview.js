@@ -69,36 +69,40 @@
       var key_event = $.browser.mozilla ? 'keypress' : 'keydown';
 
       // Keyboard navigation
-      $(container).bind(key_event, function(event){
-        if(event.type == key_event){
-          switch(event.keyCode){
-            case(37): //left
-              $(this).parent().prev().children('.inpath').focus().trigger("click");
-              break;
-            case(38): //up
-              $(this).prev().focus().trigger("click");
-              break;
-            case(39): //right
-              if($(this).hasClass('hasChildMenu')){
-                $(this).parent().next().children('a:first').focus().trigger("click");
-              }
-              break;
-            case(40): //down
-              $(this).next().focus().trigger("click");
-              break;
-            case(13): //enter
-              $(this).trigger("dblclick");
-              break;
-          }
-        }
-        event.preventDefault();
+      $(container).bind(key_event, function(event) {
+        self._doKeydown(event);
       });
 
       // Mouse clicks
       $(container).bind("click", function(event) {
-          self._doClick(event, self);
-        }
-      );
+        self._doClick(event, self);
+      });
+    },
+
+    // Handle keydown events and synthesize mouse clicks
+    _doKeydown: function(event) {
+      switch (event.which) {
+        case 37: //left
+          $(event.target).parent().prev().children('.inpath').focus().trigger("click");
+          break;
+        case 38: //up
+          $(event.target).prev().focus().trigger("click");
+          break;
+        case 39: //right
+          if($(event.target).hasClass('hasChildMenu')){
+            $(event.target).parent().next().children('a:first').focus().trigger("click");
+          }
+          break;
+        case 40: //down
+          $(event.target).next().focus().trigger("click");
+          break;
+        case 13: //enter
+          $(event.target).trigger("dblclick");
+          break;
+        default:
+          return;
+      }
+      event.preventDefault();
     },
 
     // Handle mouse clicks (including ones synthesized from keyboard events)
