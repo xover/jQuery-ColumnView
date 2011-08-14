@@ -263,16 +263,12 @@
           .containerobj a:focus {\
             outline:none;\
           }\
-          .containerobj a canvas {\
-          }\
           .containerobj .feature {\
             min-width:200px;\
             overflow-y:auto;\
           }\
           .containerobj .feature a {\
             white-space:normal;\
-          }\
-          .containerobj .hasChildMenu {\
           }\
           .containerobj .active {\
             background-color:#3671cf;\
