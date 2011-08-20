@@ -129,7 +129,8 @@
       }
 
       // Make sure the (outer) 'a' is the target, not the (inner) span
-      $(event.target).is('span') ? $(event.target).parent() : event.target;
+      var target =
+        $(event.target).is('span') ? $(event.target).parent() : event.target;
 
       // Delete modifier keys if multiple-selection is not enabled
       if (!settings.multi) {
@@ -200,6 +201,13 @@
         // We're passing the element back to the callback
         var onchange = settings.onchange($(target), isleafnode);
       }
+
+      // Trigger a select event
+      self._trigger('select', event, {
+        selected: $(target)
+      });
+
+      // Prevent the click from trying to follow the a's href
       event.preventDefault();
     },
 
