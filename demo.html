@@ -10,23 +10,19 @@
   <script src="jquery.columnview.js" type="text/javascript" charset="utf-8"></script>
   <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/themes/smoothness/jquery-ui.css" type="text/css" rel="stylesheet" />
   <style type="text/css" media="screen">
-    .containerobj .widget
-    {
-      background-color:white;
-    }
-    .containerobj .active .widget
-    {
-      color: white;
-      background-color:#3671cf;
-    }
-    .containerobj .inpath .widget
-    {
-      background-color:#d0d0d0;
+    .demo {
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      border-radius: 10px;
+      border: 1px solid black;
+      margin: 2em;
+      padding: 2em;
     }
   </style>
 <body>
 
 
+  <div class="demo">
   <h1 id="no_options">No options</h1>
   <pre>
     $("#demo2").columnview();
@@ -113,7 +109,9 @@
   </li> 
   <li class="leaf"><a href="#">Log out</a></li> 
   </ul> 
-  
+  </div>
+
+  <div class="demo">
   <h1 id="multi-select_enabled">Multi-select enabled</h1>
   <p>Multi-selection via the Shift or meta (Command/Apple on Mac, Control on Windows/Linux) is available with all jQuery versions, though true shift-clicking to select a range is only available with 1.4.x due to changes in the <strong>.index()</strong> method.</p>
   <pre>
@@ -202,7 +200,9 @@
   </li> 
   <li class="leaf"><a href="#">Log out</a></li> 
   </ul>
-  
+  </div>
+
+  <div class="demo">
   <h1 id="fixed-width_columns">Fixed-width columns</h1>
   <p>By default on Firefox and Webkit browsers, columns will automatically size horizontally to contain their contents. You may choose to use fixed-width columns instead. On IE, Webkit and Opera, the text will automatically be truncated with ellipsis. Note that columns are always fixed-width on IE due to its handling of automatic widths for absolutely positioned elements. I'm still looking for a reliable cross-platform way to truncate text that performs well. You may notice that text runs under the triangle widgets also. This is easy enough to fix with CSS, though I leave that to you, since it won't work consistently if you're using images as backgrounds in the widget.</p>
   <pre>
@@ -308,7 +308,9 @@
   </li> 
   <li class="leaf"><a href="#">Log out</a></li> 
   </ul>
-  
+  </div>
+
+  <div class="demo">
   <h1 id="adding_a_callback_to_the_'preview'_pane">Adding a callback to the 'Preview' pane</h1>
   <p>In order to show something more interesting in the rightmost pane when a user drills all the way down to the lowest level in a hierarchy, we provide a callback to the 'preview' setting. The calling object is passed to the preview function.</p>
   <p>Here were using a simple function to display the text in reverse, but you could use this callback to make AJAX calls to load external data, etc.</p>
@@ -402,7 +404,9 @@
   </li> 
   <li class="leaf"><a href="#">Log out</a></li> 
   </ul>
-  
+  </div>
+
+  <div class="demo">
   <h1 id="getting_selected_items">Getting selected items</h1>
   <p>To find selected items, you should construct a selector that gathers all items that have the <strong>active</strong> within the columnview widget. you can then iterate over the results.</p>
   <pre>
@@ -496,7 +500,9 @@
   <li class="leaf"><a href="#">Log out</a></li> 
   </ul>
   <input type="button" name="getactive" value="Hightlight Selected Items" id="getactive"/>
-  
+  </div>
+
+  <div class="demo">
   <h1 id="onchange">Firing a callback on changing selected element</h1>
   <p>You can trigger a callback function based on the currently selected item. At the moment, this only works when <code>multi</code> is set to <code>false</code>.</p>
   <pre>
@@ -588,7 +594,9 @@
   <li class="leaf"><a href="#">Log out</a></li> 
   </ul>
   Current Item: <div style="border:1px solid green" id="thecurrent">&nbsp;</div>
-  
+  </div>
+
+  <div class="demo">
   <h1 id="nopreview">Don't show any preview pane at all</h1>
   <p>You may not want to show a preview pane at all, so now you can with <code>preview:false</code>.</p>
   <pre>
@@ -677,7 +685,9 @@
   </li> 
   <li class="leaf"><a href="#">Log out</a></li> 
   </ul>
-  
+  </div>
+
+  <div class="demo">
   <h1 id="creation">Create and destroy a columnview</h1>
   <p>The columnview can be destroyed with <code>.columnview('destroy')</code></p>
   <pre>
@@ -769,7 +779,7 @@
   </li> 
   <li class="leaf"><a href="#">Log out</a></li> 
   </ul>
-
+  </div>
   
   <!-- The actual scripts -->
   <script type="text/javascript" charset="utf-8">
