@@ -131,7 +131,7 @@
       // Make sure the (outer) 'a' is the target, not the (inner) span
       $(event.target).is('span') ? $(event.target).parent() : event.target;
 
-      // Delete modifier keys is multiple-selection is not enabled
+      // Delete modifier keys if multiple-selection is not enabled
       if (!settings.multi) {
         delete event.shiftKey;
         delete event.metaKey;
