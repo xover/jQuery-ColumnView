@@ -18,7 +18,8 @@
       multi: false,     // Allow multiple selections
       preview: true,    // Handler for preview pane
       fixedwidth: false,// Use fixed width columns
-      onchange: false   // Handler for selection change
+      onchange: false,  // Handler for selection change
+      idsuffix: '-columnview' // Suffix to use for the widget's ID attribute
     },
 
     _create: function() {
@@ -34,10 +35,12 @@
       // Hide original list
       $(element).hide();
 
-      // Reset the original list's id
+      // Determine ID for the columnview
       var origid = $(element).attr('id');
-      if (origid) {
-        $(element).attr('id', origid + "-processed");
+      if (origid) { // Use the original element's ID plus .idsuffix
+        self.id = origid + settings.idsuffix;
+      } else { // Generate a random ID plus .idsuffix
+        self.id = Math.floor(Math.random() * 10e10) + settings.idsuffix;
       }
 
       // Create new top container from top-level LI tags
@@ -45,7 +48,7 @@
       var container = $('<div/>')
         .addClass('containerobj')
         .addClass('ui-widget')
-        .attr('id', origid)
+        .attr('id', self.id)
         .insertAfter(element);
       var topdiv = $('<div/>').addClass("top ui-widget-content ui-corner-left").appendTo(container);
 
