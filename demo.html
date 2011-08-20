@@ -810,13 +810,15 @@
       $('#demo8').columnview();
       $('#create').button();
       $('#create').button('disable');
-      $('#create').click(function() {
+      $('#create').click(function(e) {
+        e.preventDefault();
         $('#demo8').columnview();
         $('#create').button('disable');
         $('#destroy').button('enable');
       });
       $('#destroy').button();
-      $('#destroy').click(function() {
+      $('#destroy').click(function(e) {
+        e.preventDefault();
         $('#demo8').columnview('destroy');
         $('#destroy').button('disable');
         $('#create').button('enable');
