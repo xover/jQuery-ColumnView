@@ -86,6 +86,13 @@
       });
     },
 
+    // Remove all traces of the columnview and restore original data
+    destroy: function() {
+      $('#' + this.id).remove();
+      $(this.element).show();
+      $.Widget.prototype.destroy.call(this);
+    },
+
     // Handle keydown events and synthesize mouse clicks
     _doKeydown: function(event) {
       switch (event.which) {
